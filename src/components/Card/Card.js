@@ -1,6 +1,8 @@
 import { Component } from "react";
 import { Statistic } from "../Statistic";
 import { Button } from "./Button";
+import { Section } from "../Section";
+import { Notification } from "./Notification";
 
 export class Card extends Component {
   state = {
@@ -9,7 +11,7 @@ export class Card extends Component {
     bad: 0,
   };
 
-  incrementFeedbackHandler = (value) => () => {
+  incrementFeedbackHandler = () => (value) => {
     this.setState({
       [value]: this.state[value] + 1,
     });
@@ -30,38 +32,28 @@ export class Card extends Component {
     const { good, neutral, bad } = this.state;
     return (
       <div>
-        <h1>Please leave feedback</h1>
-        <Button
-          onIncrement={this.incrementFeedbackHandler("good")}
-          name="Good"
-        />
-        <Button
-          onIncrement={this.incrementFeedbackHandler("neutral")}
-          name="Neutral"
-        />
-        <Button onIncrement={this.incrementFeedbackHandler("bad")} name="Bad" />
-        {/* <Statistics good={} neutral={} bad={} total={} positivePercentage={}></Statistics> */}
-        <h2>Statistics</h2>
-        <Statistic name="Good" count={good} />
-        <Statistic name="Neutral" count={neutral} />
-        <Statistic name="Bad" count={bad} />
-        <Statistic name="Total" count={this.totalSumFeedbacks(this.state)} />
-        <Statistic
-          name="Positive feedbacks"
-          count={this.countPositiveFeedbackPercentage(this.state)}
-        />
+        <Section title="Please leave feedback">
+          <Button
+            options={this.state}
+            onLeaveFeedback={this.incrementFeedbackHandler()}
+          ></Button>
+        </Section>
+        {this.totalSumFeedbacks(this.state) !== 0 ? (
+          <Section title="Statistics">
+            <Statistic
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={this.totalSumFeedbacks(this.state)}
+              positivePercentage={this.countPositiveFeedbackPercentage(
+                this.state
+              )}
+            ></Statistic>
+          </Section>
+        ) : (
+          <Notification message="No feedback given" />
+        )}
       </div>
     );
   }
 }
-
-// export class Counter extends Component {
-//   render() {
-//     return (
-//       <div>
-//         <h1>{/* {this.props.name} {this.props.count} */}</h1>
-//         <div>{/* <Increment onClick={this.props.onIncrement} /> */}</div>
-//       </div>
-//     );
-//   }
-// }
