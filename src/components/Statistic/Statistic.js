@@ -1,4 +1,5 @@
 import { Component } from "react";
+import PropTypes from "prop-types";
 
 export class Statistic extends Component {
   stringModification(string) {
@@ -24,3 +25,13 @@ export class Statistic extends Component {
     );
   }
 }
+
+Statistic.propsTypes = {
+  props: PropTypes.objectOf(
+    PropTypes.shape({
+      good: PropTypes.number.isRequired,
+      neutral: PropTypes.number.isRequired,
+      bad: PropTypes.number.isRequired,
+    })
+  ),
+};

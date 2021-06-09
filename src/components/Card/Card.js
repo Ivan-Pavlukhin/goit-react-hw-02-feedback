@@ -4,6 +4,8 @@ import { Button } from "./Button";
 import { Section } from "../Section";
 import { Notification } from "./Notification";
 
+import styles from "./card.module.css";
+
 export class Card extends Component {
   state = {
     good: 0,
@@ -31,7 +33,7 @@ export class Card extends Component {
   render() {
     const { good, neutral, bad } = this.state;
     return (
-      <div>
+      <div className={styles.wrapper}>
         <Section title="Please leave feedback">
           <Button
             options={this.state}
